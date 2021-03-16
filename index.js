@@ -12,7 +12,8 @@ const web = new WebClient(TOKEN);
 
   try {
     const res = await web.files.list({
-      channel: CHANNEL
+      channel: CHANNEL,
+      count: 1000
     })
 
     const downloadFiles = res.files.map(file => {
@@ -33,6 +34,7 @@ const web = new WebClient(TOKEN);
           responseType: 'stream'
         });
         const savePath = path.resolve(__dirname, 'downloads', file.name)
+        console.log(`Saving: ${file.name}`)
         res.data.pipe(fs.createWriteStream(savePath))
       }, 1000 * index)
     }))
