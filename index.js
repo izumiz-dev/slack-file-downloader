@@ -16,24 +16,25 @@ const web = new WebClient(TOKEN);
     })
 
     const downloadFiles = res.files.map(file => {
-      console.log(JSON.stringify(res, null, 4));
       return {
         url: file.url_private_download,
         name: file.name
       }
     });
 
-    Promise.all(downloadFiles.map(async file => {
-      const res = await axios({
-        method: 'get',
-        url: file.url,
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-        },
-        responseType: 'stream'
-      });
-      const savePath = path.resolve(__dirname, 'downloads', file.name)
-      res.data.pipe(fs.createWriteStream(savePath))
+    Promise.all(downloadFiles.map(async (file, index) => {
+      setTimeout(async () => {
+        const res = await axios({
+          method: 'get',
+          url: file.url,
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+          responseType: 'stream'
+        });
+        const savePath = path.resolve(__dirname, 'downloads', file.name)
+        res.data.pipe(fs.createWriteStream(savePath))
+      }, 1000 * index)
     }))
   } catch (error) {
     console.log(error);
