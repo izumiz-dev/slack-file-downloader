@@ -1,5 +1,9 @@
 # Slack file downloader
 
+## 詳細ブログ
+
+https://blog.izumiz.me/blog/slack-file-download-nodejs
+
 ## How to use
 
 1. Setup slack app
